@@ -1,0 +1,13 @@
+program KakaoPC_NoAdv;
+
+uses
+  Forms,
+  unitKakao in 'unitKakao.pas' {Form1};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TForm1, Form1);
+  Application.Run;
+end.
