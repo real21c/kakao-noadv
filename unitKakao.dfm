@@ -96,7 +96,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       Top = 16
       Width = 19
       Height = 20
-      Caption = '1.2'
+      Caption = '1.3'
       Color = 5460594
       Font.Charset = ANSI_CHARSET
       Font.Color = 16119285
@@ -143,10 +143,10 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
     object lblResult2: TLabel
       Left = 48
       Top = 64
-      Width = 170
+      Width = 154
       Height = 21
       Alignment = taCenter
-      Caption = #44305#44256#44032' '#51228#44144#46104#50632#49845#45768#45796'.'
+      Caption = #44305#44256#47484' '#51228#44144#51473#51077#45768#45796'.'
       Color = 6027775
       Font.Charset = ANSI_CHARSET
       Font.Color = 13026774

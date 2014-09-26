@@ -47,7 +47,9 @@ type
     function getInstallDir: string;
   end;
 
+
 const
+  WM_SHOW_REAL21C = WM_USER + $0001;
   TERMINATE_SECOND  = 10;
   TERMINATE_MESSAGE = '%d초 후 프로그램을 종료합니다.';
 
@@ -84,6 +86,7 @@ var
   ClassName: string;
   Title: array[0..255] of Char;
   Rect: TRect;
+  Flag: boolean;
 begin
   if IsWindowVisible(Handle) and ((GetWindowLong(Handle, WS_EX_DLGMODALFRAME) = 0)) then begin
         SetLength (ClassName, 100);
@@ -91,8 +94,12 @@ begin
         ClassName := PChar (ClassName);
         GetWindowText(Handle, Title, 255);
 
+        Flag := False;
+
         if ClassName = '#32770' then begin
-          if (Title = '카카오톡') then begin
+          if (Title = '카카오톡') then Flag := True;
+          if (Title = 'KakaoTalk') then Flag := True;
+          if Flag then begin
               GetWindowRect(Handle, Rect);
 
               friendList :=  FindWindowEx(Handle, 0, '#32770', nil);
@@ -108,6 +115,7 @@ begin
 
                   frmRemoveKakaoAD.setStateCompleted(frmRemoveKakaoAD.lblState1);
                   frmRemoveKakaoAD.setActiveControl(frmRemoveKakaoAD.lblResult2);
+                  frmRemoveKakaoAd.lblResult2.Caption := '광고가 제거되었습니다.';
                   frmRemoveKakaoAD.tmrClose.Enabled := True;
                   //frmRemoveKakaoAD.lblResult2.Caption := '광고가 제거되었습니다.';
                 end;

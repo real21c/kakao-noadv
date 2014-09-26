@@ -2,12 +2,25 @@ program KakaoPC_NoAdv;
 
 uses
   Forms,
-  unitKakao in 'unitKakao.pas' {Form1};
+  Windows,
+  Messages,
+  unitKakao in 'unitKakao.pas' {frmRemoveKakaoAD};
 
 {$R *.res}
 
+var
+  Mutex: THandle;
+
 begin
-  Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
-  Application.Run;
+  Mutex := CreateMutex(nil, True, 'NoDuplicate');
+  if (Mutex <> 0) and (GetLastError = 0) then begin
+    Application.Initialize;
+    Application.CreateForm(TfrmRemoveKakaoAD, frmRemoveKakaoAD);
+    Application.Run;
+  end
+  else begin
+    if Mutex <> 0 then CloseHandle(Mutex);
+
+    Application.Terminate;
+  end;
 end.
