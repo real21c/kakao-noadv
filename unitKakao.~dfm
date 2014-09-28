@@ -1,6 +1,6 @@
 object frmRemoveKakaoAD: TfrmRemoveKakaoAD
-  Left = 594
-  Top = 337
+  Left = -662
+  Top = 324
   BorderStyle = bsNone
   Caption = #52852#52852#50724#53665'PC'#48260#51204' '#44305#44256' '#51228#44144' by dongmin.kim'
   ClientHeight = 266
@@ -21,7 +21,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
   OnMouseMove = FormMouseMove
   PixelsPerInch = 96
   TextHeight = 12
-  object Panel2: TPanel
+  object panelTop: TPanel
     Left = 0
     Top = 0
     Width = 415
@@ -35,7 +35,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
     DesignSize = (
       415
       49)
-    object Label4: TLabel
+    object lblAppTitle: TLabel
       Left = 14
       Top = 5
       Width = 275
@@ -96,7 +96,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       Top = 16
       Width = 19
       Height = 20
-      Caption = '1.3'
+      Caption = '1.4'
       Color = 5460594
       Font.Charset = ANSI_CHARSET
       Font.Color = 16119285
@@ -110,7 +110,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       OnMouseMove = FormMouseMove
     end
   end
-  object Panel1: TPanel
+  object panelClient: TPanel
     Left = 0
     Top = 49
     Width = 415
@@ -159,7 +159,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       OnMouseDown = FormMouseDown
       OnMouseMove = FormMouseMove
     end
-    object Shape1: TShape
+    object shapeLine: TShape
       Left = 0
       Top = 143
       Width = 416
@@ -248,22 +248,22 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       OnMouseDown = FormMouseDown
       OnMouseMove = FormMouseMove
     end
-    object lblMy: TLabel
+    object lblReal21c: TLabel
       Left = 191
       Top = 172
-      Width = 139
+      Width = 140
       Height = 15
       Cursor = crHandPoint
-      Caption = 'real21c.com/kakaoNoAdv'
+      Caption = 'real21c.com/kakao-noadv'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlue
       Font.Height = -12
       Font.Name = #47569#51008' '#44256#46357
       Font.Style = [fsUnderline]
       ParentFont = False
-      OnClick = lblMyClick
+      OnClick = lblReal21cClick
     end
-    object Label1: TLabel
+    object lblUpdate: TLabel
       Left = 64
       Top = 172
       Width = 111

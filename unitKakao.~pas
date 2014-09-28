@@ -1,32 +1,42 @@
+{*******************************************************}
+{                                                       }
+{  카카오톡 PC버전 광고 제거 프로그램입니다.            }
+{                                                       }
+{  개발자: 김동민                                       }
+{  연락처: real21c@gmail.com                            }
+{                                                       }
+{  http://real21c.com/kakao-noadv                       }
+{                                                       }
+{*******************************************************}
 unit unitKakao;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, ShellAPI, Registry, jpeg;
+  Dialogs, ExtCtrls, StdCtrls, ShellAPI, Registry;
 
 type
   TfrmRemoveKakaoAD = class(TForm)
     tmrURL: TTimer;
-    Panel2: TPanel;
-    Label4: TLabel;
+    tmrClose: TTimer;
+    panelTop: TPanel;
+    panelClient: TPanel;
+    lblAppTitle: TLabel;
+    lblVersion: TLabel;
     lblUI_Min: TLabel;
     lblUI_Close: TLabel;
-    tmrClose: TTimer;
-    Panel1: TPanel;
     lblResult1: TLabel;
     lblResult2: TLabel;
-    Shape1: TShape;
     lblResult3: TLabel;
     lblState1: TLabel;
     lblState2: TLabel;
     lblState3: TLabel;
-    lblMy: TLabel;
-    Label1: TLabel;
-    lblVersion: TLabel;
+    lblUpdate: TLabel;
+    lblReal21c: TLabel;
+    shapeLine: TShape;
     procedure tmrURLTimer(Sender: TObject);
-    procedure lblMyClick(Sender: TObject);
+    procedure lblReal21cClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -49,19 +59,15 @@ type
 
 
 const
-  WM_SHOW_REAL21C = WM_USER + $0001;
-  TERMINATE_SECOND  = 10;
   TERMINATE_MESSAGE = '%d초 후 프로그램을 종료합니다.';
-
-  COLOR_ACTIVE    = $00535272; // RGB(114, 82, 83);
-  COLOR_DEACTIVE  = $00C6C5D6; // RGB(214, 197, 198);
-
+  TERMINATE_SECOND  = 10;
+  COLOR_ACTIVE      = $00535272; // RGB(114, 82, 83);
+  COLOR_DEACTIVE    = $00C6C5D6; // RGB(214, 197, 198);
 
 var
   frmRemoveKakaoAD: TfrmRemoveKakaoAD;
   friendList,
   childAD: HWND;
-  //titleAD: array[0..255] of Char;
 
 implementation
 
@@ -96,9 +102,11 @@ begin
 
         Flag := False;
 
+        // 카카오톡 하단의 광고
         if ClassName = '#32770' then begin
           if (Title = '카카오톡') then Flag := True;
           if (Title = 'KakaoTalk') then Flag := True;
+          if (Title = 'カカオト?ク') then Flag := True;
           if Flag then begin
               GetWindowRect(Handle, Rect);
 
@@ -122,12 +130,12 @@ begin
               end;
           end;
         end;
-    end;
-end;
 
-procedure TfrmRemoveKakaoAD.tmrURLTimer(Sender: TObject);
-begin
-  CheckUrl;  
+        // 랜덤으로 팝업되는 오른쪽 하단의 투명 광고
+        if ClassName = 'EVA_Window' then begin
+          SendMessage(Handle, WM_CLOSE, 0, 0);
+        end;
+    end;
 end;
 
 procedure TfrmRemoveKakaoAD.CheckUrl;
@@ -141,6 +149,23 @@ begin
   tmrUrl.Enabled := True;
 end;
 
+procedure TfrmRemoveKakaoAD.tmrURLTimer(Sender: TObject);
+begin
+  CheckUrl;
+end;
+
+procedure TfrmRemoveKakaoAD.tmrCloseTimer(Sender: TObject);
+begin
+  setStateCompleted(lblState2);
+  setStateProgress(lblState3);
+  setActiveControl(lblResult3);
+
+  second := second + 1;
+  lblResult3.Caption := StringReplace(TERMINATE_MESSAGE, '%d', IntToStr(TERMINATE_SECOND + 1 - second), [rfReplaceAll]);
+  if second >= TERMINATE_SECOND + 1 then begin
+    close;
+  end;
+end;
 
 procedure TfrmRemoveKakaoAD.FormCreate(Sender: TObject);
 var
@@ -199,22 +224,9 @@ begin
   TLabel(Sender).Font.Color := clWhite;
 end;
 
-procedure TfrmRemoveKakaoAD.lblMyClick(Sender: TObject);
+procedure TfrmRemoveKakaoAD.lblReal21cClick(Sender: TObject);
 begin
-  ShellExecute(0, 'open', 'http://real21c.com/kakaoNoAdv', nil, nil, SW_SHOWNORMAL);
-end;
-
-procedure TfrmRemoveKakaoAD.tmrCloseTimer(Sender: TObject);
-begin
-  setStateCompleted(lblState2);
-  setStateProgress(lblState3);
-  setActiveControl(lblResult3);
-
-  second := second + 1;
-  lblResult3.Caption := StringReplace(TERMINATE_MESSAGE, '%d', IntToStr(TERMINATE_SECOND + 1 - second), [rfReplaceAll]);
-  if second >= TERMINATE_SECOND + 1 then begin
-    close;
-  end;
+  ShellExecute(0, 'open', 'http://real21c.com/kakao-noadv', nil, nil, SW_SHOWNORMAL);
 end;
 
 procedure TfrmRemoveKakaoAD.setActiveControl(Sender: TLabel);
