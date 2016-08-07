@@ -17,4 +17,4 @@ http://real21c.com/kakao-noadv
 
 
 &nbsp; &nbsp; &nbsp;
-<img src="https://raw.githubusercontent.com/real21c/kakaoNoAdv/a8b1f3e5aec10e2a0c270d863788bfd4a7cb5ae9/shot/shot1.jpg"/>
+<img src="https://raw.githubusercontent.com/real21c/kakao-noadv/master/shot/shot1.jpg"/>
