@@ -60,7 +60,7 @@ type
 
 const
   TERMINATE_MESSAGE = '%d초 후 프로그램을 종료합니다.';
-  TERMINATE_SECOND  = 10;
+  TERMINATE_SECOND  = 5;
   COLOR_ACTIVE      = $00535272; // RGB(114, 82, 83);
   COLOR_DEACTIVE    = $00C6C5D6; // RGB(214, 197, 198);
 
@@ -77,14 +77,32 @@ implementation
 function TfrmRemoveKakaoAD.getInstallDir: string;
 var
   reg: TRegistry;
+  res: String;
+  pathIndex: integer;
 begin
   reg := TRegistry.Create;
   reg.RootKey := HKEY_CLASSES_ROOT;
-  if reg.OpenKey('TypeLib\{B694121F-57B7-4F4D-9B07-0464BE376A1C}\1.0\HELPDIR', false) then begin
-    result := reg.ReadString('');
+  {
+  카카오톡 기존  버전
+  C:\Program Files (x86)\Kakao\KakaoTalk
+  if reg.OpenKey('TypeLib\{B694121F-57B7-4F4D-9B07-0464BE376A1C\1.0\HELPDIR', false) then begin
+  }
+
+  //"D:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe" "%1"
+  if reg.OpenKey('kakaoopen\shell\open\command', false) then begin
+    res := reg.ReadString('');
     reg.CloseKey;
   end;
+
   FreeAndNil(reg);
+
+  //res := inttostr(Pos('KakaoTalk.exe', res));
+  pathIndex := Pos('KakaoTalk.exe', res);
+  if pathIndex > 0 then begin
+    res := copy(res, 2, pathIndex - 3);
+  end;
+
+  Result := res;
 end;
 
 function EnumWindowsProc(Handle: HWND):Bool; stdcall;
@@ -109,14 +127,12 @@ begin
           if (Title = 'カカオト?ク') then Flag := True;
           if Flag then begin
               GetWindowRect(Handle, Rect);
-
               friendList :=  FindWindowEx(Handle, 0, '#32770', nil);
               childAD := FindWindowEx(Handle, 0, 'EVA_Window', nil);
 
               //GetWindowText(childAD, titleAD, 255);
-
               if (childAD > 0) then begin
-                showWindow(childAD, SW_HIDE);
+                //showWindow(childAD, SW_HIDE);
                 SetWindowPos(childAD, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE);
                 SetWindowPos(friendList, HWND_BOTTOM, 0, 0, (Rect.Right - Rect.Left), (Rect.Bottom - Rect.Top - 36), SWP_NOMOVE);
                 if frmRemoveKakaoAD.tmrClose.Enabled = False then begin

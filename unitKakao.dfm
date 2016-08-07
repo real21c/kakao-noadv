@@ -1,6 +1,6 @@
 object frmRemoveKakaoAD: TfrmRemoveKakaoAD
-  Left = -662
-  Top = 324
+  Left = 800
+  Top = 420
   BorderStyle = bsNone
   Caption = #52852#52852#50724#53665'PC'#48260#51204' '#44305#44256' '#51228#44144' by dongmin.kim'
   ClientHeight = 266
@@ -96,7 +96,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       Top = 16
       Width = 19
       Height = 20
-      Caption = '1.4'
+      Caption = '1.5'
       Color = 5460594
       Font.Charset = ANSI_CHARSET
       Font.Color = 16119285
@@ -283,7 +283,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
     end
   end
   object tmrURL: TTimer
-    Interval = 300
+    Interval = 100
     OnTimer = tmrURLTimer
     Left = 72
     Top = 264
