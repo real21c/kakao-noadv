@@ -102,6 +102,10 @@ begin
     res := copy(res, 2, pathIndex - 3);
   end;
 
+  if res='' then begin
+    res := 'C:\Program Files (x86)\Kakao\KakaoTalk';
+  end;
+
   Result := res;
 end;
 
