@@ -5,7 +5,8 @@
 {  개발자: 김동민                                       }
 {  연락처: real21c@gmail.com                            }
 {                                                       }
-{  http://real21c.com/kakao-noadv                       }
+{  Download: http://real21c.com/kakao-noadv             }
+{  Github: https://github.com/real21c/kakao-noadv       }
 {                                                       }
 {*******************************************************}
 unit unitKakao;
@@ -56,6 +57,7 @@ type
     procedure setStateCompleted(Sender: TLabel);
     function getInstallDir: string;
   end;
+  function EnumWindows(lpEnumFunc: TFNWndEnumProc; lParam: LPARAM): BOOL; stdcall; external user32;
 
 
 const
@@ -109,53 +111,56 @@ begin
   Result := res;
 end;
 
-function EnumWindowsProc(Handle: HWND):Bool; stdcall;
+Function EnumWindowsProc (Handle: HWND): BOOL; stdcall;
 var
-  ClassName: string;
-  Title: array[0..255] of Char;
+  Title: Array [0..128] of Char;
+  ClassName: Array [0..128] of Char;
   Rect: TRect;
   Flag: boolean;
 begin
-  if IsWindowVisible(Handle) and ((GetWindowLong(Handle, WS_EX_DLGMODALFRAME) = 0)) then begin
-        SetLength (ClassName, 100);
-        GetClassName (Handle, PChar (ClassName), Length (ClassName));
-        ClassName := PChar (ClassName);
-        GetWindowText(Handle, Title, 255);
+  Result := True;
+  if //IsWindowVisible(Wnd) and
+    ((GetWindowLong(Handle, GWL_HWNDPARENT) = 0) or
+    (HWND(GetWindowLong(Handle, GWL_HWNDPARENT)) = GetDesktopWindow)) and
+    ((GetWindowLong(Handle, GWL_EXSTYLE) and WS_EX_TOOLWINDOW) = 0) then
 
-        Flag := False;
+  begin
+    SendMessage( Handle, WM_GETTEXT, Sizeof( Title ), integer(@Title));
+    Windows.GetClassname( HWND(Handle), ClassName, Sizeof( ClassName ));
 
-        // 카카오톡 하단의 광고
-        if ClassName = '#32770' then begin
-          if (Title = '카카오톡') then Flag := True;
-          if (Title = 'KakaoTalk') then Flag := True;
-          if (Title = 'カカオト?ク') then Flag := True;
-          if Flag then begin
-              GetWindowRect(Handle, Rect);
-              friendList :=  FindWindowEx(Handle, 0, '#32770', nil);
-              childAD := FindWindowEx(Handle, 0, 'EVA_Window', nil);
+    Flag := False;
+    // 카카오톡 하단의 광고
+    if ClassName = '#32770' then begin
+        if (Title = '카카오톡') then Flag := True;
+        if (Title = 'KakaoTalk') then Flag := True;
+        if (Title = 'カカオト?ク') then Flag := True;
+        if Flag then begin
+          GetWindowRect(Handle, Rect);
+          friendList :=  FindWindowEx(Handle, 0, '#32770', nil);
+          childAD := FindWindowEx(Handle, 0, 'EVA_Window', nil);
 
-              //GetWindowText(childAD, titleAD, 255);
-              if (childAD > 0) then begin
-                //showWindow(childAD, SW_HIDE);
-                SetWindowPos(childAD, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE);
-                SetWindowPos(friendList, HWND_BOTTOM, 0, 0, (Rect.Right - Rect.Left), (Rect.Bottom - Rect.Top - 36), SWP_NOMOVE);
-                if frmRemoveKakaoAD.tmrClose.Enabled = False then begin
+          //GetWindowText(childAD, titleAD, 255);
+          if (childAD > 0) then begin
+            showWindow(childAD, SW_HIDE);
+            SetWindowPos(childAD, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE);
+            SetWindowPos(friendList, HWND_BOTTOM, 0, 0, (Rect.Right - Rect.Left), (Rect.Bottom - Rect.Top - 36), SWP_NOMOVE);
+            if frmRemoveKakaoAD.tmrClose.Enabled = False then begin
 
-                  frmRemoveKakaoAD.setStateCompleted(frmRemoveKakaoAD.lblState1);
-                  frmRemoveKakaoAD.setActiveControl(frmRemoveKakaoAD.lblResult2);
-                  frmRemoveKakaoAd.lblResult2.Caption := '광고가 제거되었습니다.';
-                  frmRemoveKakaoAD.tmrClose.Enabled := True;
-                  //frmRemoveKakaoAD.lblResult2.Caption := '광고가 제거되었습니다.';
-                end;
-              end;
+              frmRemoveKakaoAD.setStateCompleted(frmRemoveKakaoAD.lblState1);
+              frmRemoveKakaoAD.setActiveControl(frmRemoveKakaoAD.lblResult2);
+              frmRemoveKakaoAd.lblResult2.Caption := '광고가 제거되었습니다.';
+              frmRemoveKakaoAD.tmrClose.Enabled := True;
+              frmRemoveKakaoAD.lblResult2.Caption := '광고가 제거되었습니다.';
+            end;
           end;
         end;
-
-        // 랜덤으로 팝업되는 오른쪽 하단의 투명 광고
-        if ClassName = 'EVA_Window' then begin
-          SendMessage(Handle, WM_CLOSE, 0, 0);
-        end;
     end;
+
+    // 랜덤으로 팝업되는 오른쪽 하단의 투명 광고
+    if ClassName = 'EVA_Window' then begin
+      SendMessage(Handle, WM_CLOSE, 0, 0);
+    end;
+  end;
 end;
 
 procedure TfrmRemoveKakaoAD.CheckUrl;
@@ -278,6 +283,5 @@ begin
   Sender.Visible := True;
   Sender.Font.Color := COLOR_DEACTIVE;
 end;
-
 
 end.

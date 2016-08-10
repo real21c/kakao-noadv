@@ -1,10 +1,10 @@
 object frmRemoveKakaoAD: TfrmRemoveKakaoAD
-  Left = 800
-  Top = 420
+  Left = 561
+  Top = 259
   BorderStyle = bsNone
   Caption = #52852#52852#50724#53665'PC'#48260#51204' '#44305#44256' '#51228#44144' by dongmin.kim'
-  ClientHeight = 266
-  ClientWidth = 415
+  ClientHeight = 251
+  ClientWidth = 386
   Color = 5460594
   Ctl3D = False
   Font.Charset = ANSI_CHARSET
@@ -24,7 +24,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
   object panelTop: TPanel
     Left = 0
     Top = 0
-    Width = 415
+    Width = 386
     Height = 49
     Align = alTop
     BevelOuter = bvNone
@@ -33,7 +33,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
     OnMouseDown = FormMouseDown
     OnMouseMove = FormMouseMove
     DesignSize = (
-      415
+      386
       49)
     object lblAppTitle: TLabel
       Left = 14
@@ -54,7 +54,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       OnMouseMove = FormMouseMove
     end
     object lblUI_Min: TLabel
-      Left = 376
+      Left = 347
       Top = 0
       Width = 8
       Height = 25
@@ -73,7 +73,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       OnMouseLeave = lblUI_MinMouseLeave
     end
     object lblUI_Close: TLabel
-      Left = 395
+      Left = 366
       Top = 4
       Width = 10
       Height = 25
@@ -113,8 +113,8 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
   object panelClient: TPanel
     Left = 0
     Top = 49
-    Width = 415
-    Height = 217
+    Width = 386
+    Height = 202
     Align = alClient
     BevelOuter = bvNone
     Color = 16119285
