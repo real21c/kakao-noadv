@@ -96,7 +96,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       Top = 16
       Width = 19
       Height = 20
-      Caption = '1.5'
+      Caption = '1.6'
       Color = 5460594
       Font.Charset = ANSI_CHARSET
       Font.Color = 16119285

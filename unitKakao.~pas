@@ -157,7 +157,9 @@ begin
     end;
 
     // 랜덤으로 팝업되는 오른쪽 하단의 투명 광고
-    if ClassName = 'EVA_Window' then begin
+    if  (ClassName = 'EVA_Window') or
+        (ClassName = 'FAKE_WND_REACHPOP') then
+    begin
       SendMessage(Handle, WM_CLOSE, 0, 0);
     end;
   end;
