@@ -47,6 +47,8 @@ type
     procedure lblUI_MinMouseEnter(Sender: TObject);
     procedure tmrCloseTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     mousePoint:TPoint;
     second: Integer;
@@ -55,6 +57,7 @@ type
     procedure setActiveControl(Sender: TLabel);
     procedure setStateProgress(Sender: TLabel);
     procedure setStateCompleted(Sender: TLabel);
+    procedure closeKakaoNoAd;
     function getInstallDir: string;
   end;
   function EnumWindows(lpEnumFunc: TFNWndEnumProc; lParam: LPARAM): BOOL; stdcall; external user32;
@@ -74,6 +77,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmRemoveKakaoAD.closeKakaoNoAd;
+begin
+  Close;
+end;
 
 //HKEY_CLASSES_ROOT\TypeLib\{B694121F-57B7-4F4D-9B07-0464BE376A1C}
 function TfrmRemoveKakaoAD.getInstallDir: string;
@@ -190,7 +198,7 @@ begin
   second := second + 1;
   lblResult3.Caption := StringReplace(TERMINATE_MESSAGE, '%d', IntToStr(TERMINATE_SECOND + 1 - second), [rfReplaceAll]);
   if second >= TERMINATE_SECOND + 1 then begin
-    close;
+    execClose;
   end;
 end;
 
@@ -231,6 +239,14 @@ begin
   end;
 end;
 
+procedure TfrmRemoveKakaoAD.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (ssCtrl in Shift) And ((Key = 87) or (Key = 124)) then begin
+    execClose;
+  end;
+end;
+
 procedure TfrmRemoveKakaoAD.lblUI_MinClick(Sender: TObject);
 begin
   Self.WindowState := wsMinimized;
@@ -238,7 +254,7 @@ end;
 
 procedure TfrmRemoveKakaoAD.lblUI_CloseClick(Sender: TObject);
 begin
-  Close
+  execClose;
 end;
 
 procedure TfrmRemoveKakaoAD.lblUI_MinMouseLeave(Sender: TObject);
@@ -285,5 +301,4 @@ begin
   Sender.Visible := True;
   Sender.Font.Color := COLOR_DEACTIVE;
 end;
-
 end.

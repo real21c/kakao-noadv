@@ -12,11 +12,13 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
   Font.Height = -12
   Font.Name = #44404#47548
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnMouseDown = FormMouseDown
   OnMouseMove = FormMouseMove
   PixelsPerInch = 96
@@ -96,7 +98,7 @@ object frmRemoveKakaoAD: TfrmRemoveKakaoAD
       Top = 16
       Width = 19
       Height = 20
-      Caption = '1.6'
+      Caption = '1.7'
       Color = 5460594
       Font.Charset = ANSI_CHARSET
       Font.Color = 16119285
